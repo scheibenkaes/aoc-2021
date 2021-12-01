@@ -36,3 +36,7 @@
     (let [result (sut/solve test-input)
           result (sut/intermediates-to-result result)]
       (is (= 7 result)))))
+
+(deftest ^:integration run-on-test-file!-test
+  (let [result (sut/run-on-test-file!)]
+    (is (= 1532 result))))
