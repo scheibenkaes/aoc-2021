@@ -44,18 +44,6 @@
 
 ;; ---------------- PT 2
 
-(def pt2-input
-  "199  A
-   200  A B
-   208  A B C
-   210    B C D
-   200  E   C D
-   207  E F   D
-   240  E F G
-   269    F G H
-   260      G H
-   263        H")
-
 (def windowed
   [[607 nil]
    [618 :increased]
@@ -65,7 +53,6 @@
    [716 :increased]
    [769 :increased]
    [792 :increased]])
-
 
 (deftest pt2-test
   (testing "intermediate results are generated as expected"

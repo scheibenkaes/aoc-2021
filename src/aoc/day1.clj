@@ -34,9 +34,9 @@
   (let [t1 scans
         t2 (drop 1 t1)
         t3 (drop 1 t2)]
-  (->> (partition 3 (interleave t1 t2 t3))
-       (map #(apply + %))
-       (solve))))
+    (->> (partition 3 (interleave t1 t2 t3))
+         (map #(apply + %))
+         (solve))))
 
 (defn run-pt2!
   []
