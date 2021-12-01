@@ -30,3 +30,9 @@
   (testing "test input leads to test output"
     (let [result (sut/solve test-input)]
      (is (= test-output result)))))
+
+(deftest intermediates-to-result-test
+  (testing "finds the correct answer for test input data"
+    (let [result (sut/solve test-input)
+          result (sut/intermediates-to-result result)]
+      (is (= 7 result)))))
