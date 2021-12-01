@@ -1,6 +1,10 @@
-(ns aoc.core)
+(ns aoc.core
+  (:require [clojure.java.io :as io]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn load-input
+  "Load input for a given day."
+  [day]
+  (-> (str "input" day ".txt")
+      (io/resource)
+      (io/reader)
+      line-seq))
