@@ -12,8 +12,8 @@
                   (conj acc [n :increased]))))) [] scans))
 
 (defn intermediates-to-result
-  [intermediate]
-  (->> intermediate
+  [intermediates]
+  (->> intermediates
        (map second)
        (filter #(= :increased %))
        (count)))
