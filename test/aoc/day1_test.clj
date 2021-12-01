@@ -2,6 +2,17 @@
   (:require [clojure.test :refer :all]
             [aoc.day1 :as sut]))
 
+(def test-input [199
+                 200
+                 208
+                 210
+                 200
+                 207
+                 240
+                 269
+                 260
+                 263])
+
 (def test-output
   [[199 nil]
    [200 :increased]
@@ -17,5 +28,5 @@
 
 (deftest solve-test
   (testing "test input leads to test output"
-    (let [result (sut/solve sut/test-input)]
+    (let [result (sut/solve test-input)]
      (is (= test-output result)))))
