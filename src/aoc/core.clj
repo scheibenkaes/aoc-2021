@@ -8,3 +8,10 @@
       (io/resource)
       (io/reader)
       line-seq))
+
+(defn load-input-as-numbers
+  "Interpret input as numbers."
+  [day]
+  (->> day
+       load-input
+       (map #(Integer/parseInt %))))
