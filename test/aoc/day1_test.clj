@@ -40,3 +40,42 @@
 (deftest ^:integration run-on-test-file!-test
   (let [result (sut/run-on-test-file!)]
     (is (= 1532 result))))
+
+
+;; ---------------- PT 2
+
+(def pt2-input
+  "199  A
+   200  A B
+   208  A B C
+   210    B C D
+   200  E   C D
+   207  E F   D
+   240  E F G
+   269    F G H
+   260      G H
+   263        H")
+
+(def windowed
+  [[607 nil]
+   [618 :increased]
+   [618 :no-change]
+   [617 :decreased]
+   [647 :increased]
+   [716 :increased]
+   [769 :increased]
+   [792 :increased]])
+
+
+(deftest pt2-test
+  (testing "intermediate results are generated as expected"
+    (let [result (sut/pt2 test-input)]
+      (is (= result windowed))))
+
+  (testing "calculates the example correctly"
+    (let [result (-> test-input sut/pt2 sut/intermediates-to-result)]
+      (is (= 5 result)))))
+
+(deftest ^:integration test-pt2-on-test-file
+  (let [result (sut/run-pt2!)]
+    (is (= result 1571))))
