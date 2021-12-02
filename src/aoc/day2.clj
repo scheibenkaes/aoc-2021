@@ -27,9 +27,8 @@
 (defn solve
   [interpreter {:keys [instructions] :as ship}]
   (if-let [inst (first instructions)]
-    (let [remaining (drop 1 instructions)
-          ship*     (interpreter inst ship)]
-      (recur interpreter (assoc ship* :instructions remaining)))
+    (let [ship* (interpreter inst ship)]
+      (recur interpreter (assoc ship* :instructions (rest instructions))))
     (calc-mult ship)))
 
 (defn prepare-ship
