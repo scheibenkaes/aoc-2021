@@ -15,3 +15,12 @@
   (->> day
        load-input
        (map #(Integer/parseInt %))))
+
+
+(defn load-input-as-instructions
+  [day]
+  (->> day
+       load-input
+       (mapv (fn [line]
+               (let [[dir amount] (clojure.string/split line #" ")]
+                [(keyword dir) (Integer/parseInt amount)])))))
