@@ -35,25 +35,19 @@
 
 ;; pt 2
 
-(defn oxygen
-  ([lines] (oxygen lines 0))
-  ([lines bit-pos]
-   (let [fst (take-bit-at-pos lines bit-pos)
-         sig (gamma fst)
-         w1  (filter #(= (get % bit-pos) sig) lines)]
-     (if (= (count w1) 1)
-       (Integer/parseInt (first w1) 2)
-       (recur w1 (inc bit-pos))))))
+(defn life-support
+  ([significance-f lines] (life-support significance-f lines 0))
+  ([significance-f lines bit-pos]
+   (let [row               (take-bit-at-pos lines bit-pos)
+         significance      (significance-f row)
+         significant-lines (filter #(= (get % bit-pos) significance) lines)]
+     (if (= (count significant-lines) 1)
+       (Integer/parseInt (first significant-lines) 2)
+       (recur significance-f significant-lines (inc bit-pos))))))
 
-(defn co2
-  ([lines] (co2 lines 0))
-  ([lines bit-pos]
-   (let [fst (take-bit-at-pos lines bit-pos)
-         sig (epsilon fst)
-         w1  (filter #(= (get % bit-pos) sig) lines)]
-     (if (= (count w1) 1)
-       (Integer/parseInt (first w1) 2)
-       (recur w1 (inc bit-pos))))))
+(def oxygen (partial life-support gamma))
+
+(def co2 (partial life-support epsilon))
 
 (defn solve
   [nums]
