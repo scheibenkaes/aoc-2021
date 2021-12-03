@@ -24,14 +24,6 @@
       (is (= epsilon 9))
       (is (= mult 198)))))
 
-#_(deftest ^:integration solve-on-input-file
-  (let [result (sut/run-on-test-file!)]
-    (is (= 1855814 (:mult result)))))
-
-#_(deftest pt2-test
-  (let [result (sut/pt2-solve test-input)]
-    (is (= (:mult result) 900))))
-
-#_(deftest ^:integration run-pt2-test
-  (let [result (sut/run-pt2!)]
-    (is (= 1845455714 (:mult result)))))
+(deftest ^:integration solve-on-input-file
+  (let [result (sut/run-on-test-data!)]
+    (is (= 3882564 (:mult result)))))

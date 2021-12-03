@@ -40,3 +40,8 @@
      :gamma   gm
      :bits    bits
      :mult    (* eps gm)}))
+
+(defn run-on-test-data!
+  []
+  (let [lines (aoc/load-input 3)]
+    (solve lines)))
