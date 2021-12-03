@@ -4,9 +4,9 @@
 (defn calc-rate
   [rate line]
   (->> line
-      (reduce (fn [acc c] (update-in acc [c] inc)) {\0 0 \1 0})
-      (sort-by val rate)
-      ffirst))
+       (reduce (fn [acc c] (update-in acc [c] inc)) {\0 0 \1 0})
+       (sort-by val rate)
+       ffirst))
 
 (def epsilon (partial calc-rate <))
 
@@ -26,8 +26,8 @@
 (defn char-seq->int
   [cs]
   (as-> cs cs
-      (clojure.string/join cs)
-      (Integer/parseInt cs 2)))
+    (clojure.string/join cs)
+    (Integer/parseInt cs 2)))
 
 (defn solve
   [nums]
