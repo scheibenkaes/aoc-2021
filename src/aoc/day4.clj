@@ -1,5 +1,6 @@
 (ns aoc.day4
-  (:require [aoc.core :as aoc]))
+  (:require [aoc.core :as aoc]
+            clojure.set))
 
 (defn ->board
   ^{:pre [(= 25 (count nums))]}
