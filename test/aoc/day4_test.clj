@@ -56,3 +56,20 @@
   (let [game (run-on-data test-file)]
     (is (= (:score game)
            38913))))
+
+(defn run-pt2-on-data
+  ""
+  [data]
+  (->> data
+       sut/load-board
+       sut/run-pt2
+       sut/score-game))
+
+(deftest score-pt2-test
+  (let [{score :score} (run-pt2-on-data test-data)]
+    (is (= 1924 score))))
+
+(deftest test-pt2-file-test
+  (let [game (run-pt2-on-data test-file)]
+    (is (= 16836
+           (:score game)))))

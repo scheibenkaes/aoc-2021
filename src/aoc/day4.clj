@@ -35,7 +35,6 @@
                       (partial clojure.set/subset? #{4 9 14 19 24})))
 
 (defn update-if-won
-  ""
   [{:keys [checked-positions] :as board}]
   (let [won? (checker checked-positions)]
     (assoc board :winner? won?)))
@@ -53,7 +52,6 @@
     board))
 
 (defn winner-board
-  ""
   [boards]
   (->> boards
        (filter :winner?)
@@ -67,7 +65,7 @@
           boards* (map #(check-number % number) boards)
           winner? (winner-board boards*)]
       (if winner?
-        (assoc game :boards boards*)
+        (assoc game :boards boards* :winning-board winner?)
         (recur (assoc game
                       :numbers (rest numbers)
                       :boards boards*))))
@@ -77,10 +75,33 @@
 (defn score-game
   ""
   [game]
-  (when-let [winning-board (winner-board (:boards game))]
+  (when-let [winning-board (:winning-board game)]
     (let [{numbers         :numbers
            already-checked :checked-nums
            last-call       :last-call} winning-board
           unchecked                    (clojure.set/difference (set numbers) already-checked)
           unchecked                    (apply + unchecked)]
       (assoc game :score (* last-call unchecked)))))
+
+(defn run-pt2
+  ""
+  [{:keys [numbers boards] :as game}]
+  (if-not (empty? numbers)
+    (let [number              (first numbers)
+          boards*             (map #(check-number % number) boards)
+          boards-which-won    (filter :winner? boards*)
+          boards-not-won-prev (filter (complement :winner?) boards)
+          count-won           (count boards-which-won)
+          count-prev          (count boards-not-won-prev)
+          number-of-boards    (count boards)
+          all-won?            (= number-of-boards count-won)
+          last-board          (fn []
+                                (let [old (first boards-not-won-prev)]
+                                  (some #(when (= (:numbers old) (:numbers %))
+                                           %) boards*)))]
+      (if all-won?
+        (assoc game :boards boards* :winning-board (last-board))
+        (recur (assoc game
+                      :numbers (rest numbers)
+                      :boards boards*))))
+    game))
