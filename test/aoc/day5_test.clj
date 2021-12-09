@@ -41,4 +41,4 @@
 
 (deftest ^:integration weigh-test-file-with-diagonals-test
   (let [weight (->> test-file (map sut/->line) sut/->line-map sut/weigh)]
-    (is (= 5197 weight))))
+    (is (= 18605 weight))))
