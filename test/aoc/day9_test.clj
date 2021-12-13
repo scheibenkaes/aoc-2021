@@ -1,4 +1,4 @@
-(ns aoc.day6-test
+(ns aoc.day9-test
   (:require [clojure.test :refer :all]
             [aoc.core :as aoc]
             [aoc.day9 :as sut]))
@@ -29,10 +29,39 @@
     (is (= 4 (count l-points)))
     (is (= [1 0 5 5] (mapv :self l-points)))
     (is (= [2 1 6 6] (mapv :risk l-points)))
-    (is (= 15 (risk-level hmap)))))
+    (is (= 15 (sut/risk-level hmap)))))
 
 (deftest ^:integration file-test
   (let [data (-> (aoc/load-input 9)
                  (sut/load-from-lines))
         hmap (sut/calc-low-points data)]
     (is (= 554 (sut/risk-level hmap)))))
+
+(def hmap* (sut/calc-low-points height-map))
+
+(deftest basin-test
+  (let [basin1 (sut/basin height-map #{} [1 0])
+        basin2 (sut/basin height-map #{} [9 0])
+        basin3 (sut/basin height-map #{} [2 2])
+        basin4 (sut/basin height-map #{} [6 4])]
+
+    (is (= #{[0 0] [1 0] [0 1]} basin1))
+    (is (= 3 (count basin1)))
+    (is (= 9 (count basin2)))
+    (is (= 14 (count basin3)))
+    (is (= 9 (count basin4)))))
+
+(deftest pt2-test
+  (let [lows   (sut/low-points hmap*)
+        points (map :x-y lows)
+        basins (map (fn [p] (sut/basin height-map #{} p)) points)
+        top3   (->> (into {} (for [b basins] [b (count b)]))
+                    (sort-by val >)
+                    (take 3)
+                    (map val))]
+    (is (= 4 (count lows)))
+    (is (= #{[1 0] [9 0] [2 2] [6 4]}
+           (set points)))
+    (is (= top3
+           '(14 9 9)))
+    (is (= 1134 (apply * top3)))))
