@@ -1,5 +1,6 @@
 (ns aoc.day9
-  (:require [aoc.core :as aoc]))
+  (:require [aoc.core :as aoc]
+            clojure.set))
 
 (defn load-from-lines
   ""
@@ -74,10 +75,9 @@
       (nil? value)))
 
 (defn basin
-  ""
   [hmap result-set point & {:keys [coming-from] :or {coming-from nil}}]
-  (let [[x y] point
-        value (at hmap point)
+  (let [[x y]           point
+        value           (at hmap point)
         already-visited (get result-set point nil)]
     (if (or (no-basin-value? value)
             already-visited)

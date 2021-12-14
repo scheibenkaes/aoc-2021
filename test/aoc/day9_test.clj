@@ -51,6 +51,15 @@
     (is (= 14 (count basin3)))
     (is (= 9 (count basin4)))))
 
+(defn top3
+  ""
+  [basins]
+  (->> (into {} (for [b basins] [b (count b)]))
+                    (sort-by val >)
+                    (take 3)
+                    (map val)))
+
+
 (deftest pt2-test
   (let [lows   (sut/low-points hmap*)
         points (map :x-y lows)
@@ -64,4 +73,16 @@
            (set points)))
     (is (= top3
            '(14 9 9)))
+    (is (= 1134 (apply * top3)))))
+
+#_(deftest ^:integration file-pt2-test
+
+  (let [data   (-> (aoc/load-input 9)
+                   (sut/load-from-lines))
+        lps    (sut/calc-low-points data)
+        lows   (sut/low-points lps)
+        points (map :x-y lows)
+        basins (pmap (fn [p] (sut/basin data #{} p)) points)
+        top3   (top3 basins)]
+
     (is (= 1134 (apply * top3)))))
