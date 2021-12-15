@@ -27,3 +27,5 @@
   (load-input-with day (fn [line]
                          (let [[dir amount] (clojure.string/split line #" ")]
                            [(keyword dir) (Integer/parseInt amount)]))))
+
+(def inc* (fnil inc 0))
