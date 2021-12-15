@@ -58,14 +58,13 @@
   (if (or
        (= start "end")
        (nil? start))
-    (conj path start)
+    [(conj path start)]
     (let [path*          (conj path start)
           possible-paths (paths-leading-from cmap start)
           possible-paths (filter #(visit-again? already-visited %) possible-paths)]
-      (if-not possible-paths
-        (recur cmap nil {:path path* :already-visited (conj already-visited start)})
-        (for [next-step possible-paths]
-          (find-paths
-           cmap
-           (:name next-step)
-           :path path* :already-visited (conj already-visited start)))))))
+      (mapcat
+       #(find-paths
+         cmap
+         (:name %)
+         :path path* :already-visited (conj already-visited start))
+       possible-paths))))
