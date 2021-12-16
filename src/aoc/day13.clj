@@ -1,6 +1,7 @@
 (ns aoc.day13
   (:require [aoc.core :as aoc]
-            clojure.string))
+            clojure.string
+            clojure.set))
 (defn load
   [lines]
   (letfn [(->coors [s]
