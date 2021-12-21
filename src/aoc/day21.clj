@@ -68,13 +68,14 @@
                    (>= (:score1 game1) 1000) :player1
                    (>= (:score2 game2) 1000) :player2
                    :else nil)]
-      (if winner
-        (assoc game1 :winner winner)
+      (case winner
+        :player1 (assoc game1 :winner winner)
         (assoc game2 :winner winner)))))
 
 (defn score-game
   [{:keys [winner score1 score2 dice]}]
   (when winner
+    (println winner score1 score2 (:times-rolled dice))
     (let [mn    (min score1 score2)
           rolls (:times-rolled dice)]
       (* mn rolls))))

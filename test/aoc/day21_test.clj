@@ -63,4 +63,4 @@ Player 2 starting position: 8"))
         ticks  (iterate sut/tick game)
         win    (first (filter #(not= nil (:winner %)) ticks))
         result (sut/score-game win)]
-    (is (= 862110 result))))
+    (is (= 864900 result))))
