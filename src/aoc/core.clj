@@ -29,3 +29,8 @@
                            [(keyword dir) (Integer/parseInt amount)]))))
 
 (def inc* (fnil inc 0))
+
+(defn ->int
+  ""
+  [s]
+  (Integer/parseInt s))
