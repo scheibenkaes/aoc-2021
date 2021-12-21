@@ -75,7 +75,6 @@
 (defn score-game
   [{:keys [winner score1 score2 dice]}]
   (when winner
-    (println winner score1 score2 (:times-rolled dice))
     (let [mn    (min score1 score2)
           rolls (:times-rolled dice)]
       (* mn rolls))))
