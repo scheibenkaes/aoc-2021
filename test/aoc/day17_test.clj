@@ -19,3 +19,28 @@
 (deftest calc-path-test
   (let [path (sut/calc-path (sut/load-target-area test-data) (sut/->probe [7 2]))]
     (is (= 8 (count path)))))
+
+(deftest run-test
+  (let [area         (sut/load-target-area test-data)
+        result       (sut/run area)
+        result       (reduce (fn [acc e]
+                               (let [max-y (apply max (->> e
+                                                           (map :position)
+                                                           (map second)))]
+                                 (update acc max-y conj e))) {} result)
+        result       (last (sort-by first result))
+        [max-y traj] result]
+    (is (= 45 max-y))
+    (is (some #(= [6 9] ((juxt :x-vel :y-vel) %)) (map first traj)))))
+
+(deftest run-file-test
+  (let [area         (sut/load-target-area (first (aoc/load-input 17)))
+        result       (sut/run area)
+        result       (reduce (fn [acc e]
+                               (let [max-y (apply max (->> e
+                                                           (map :position)
+                                                           (map second)))]
+                                 (update acc max-y conj e))) {} result)
+        result       (last (sort-by first result))
+        [max-y traj] result]
+    (is (= 8646 max-y))))

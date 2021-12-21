@@ -52,3 +52,23 @@
   [target-area probe]
   (let [on-track (on-track-hof target-area)]
     (take-while on-track (iterate trajectory probe))))
+
+(defn max-x-vel
+  [[[_ x-max] _]]
+  x-max)
+
+(defn run
+  ([area]
+   (let [max-x-vel (max-x-vel area)
+         xs        (range 1 (inc max-x-vel))]
+     (run area xs [])))
+  ([area x-vels results]
+   (if (empty? x-vels)
+     (mapcat concat (filterv (complement empty?) results))
+     (let [x          (first x-vels)
+           candidates (for [y     (range 1 (inc (max-x-vel area)))
+                            :let  [probe (->probe [x y])
+                                   path (calc-path area probe)]
+                            :when (in-target-area? area (-> path last :position))]
+                        path)]
+       (recur area (rest x-vels) (conj results candidates))))))
