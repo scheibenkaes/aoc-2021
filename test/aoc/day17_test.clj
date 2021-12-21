@@ -55,4 +55,4 @@
         cnt    (->> result flatten (filter (fn [p] (= [0 0]
                                                      (:position p))))
                     count)]
-    (is (= 8646 cnt))))
+    (is (= 5945 cnt))))
