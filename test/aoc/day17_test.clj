@@ -14,7 +14,7 @@
   (let [probe     (sut/->probe [6 3])
         positions (iterate sut/trajectory probe)
         steps     (take 9 positions)]
-    (is (nil? steps))))
+    (is (not (nil? steps)))))
 
 (deftest calc-path-test
   (let [path (sut/calc-path (sut/load-target-area test-data) (sut/->probe [7 2]))]
@@ -23,6 +23,9 @@
 (deftest run-test
   (let [area         (sut/load-target-area test-data)
         result       (sut/run area)
+        cnt          (->> result flatten (filter (fn [p] (= [0 0]
+                                                           (:position p))))
+                          count)
         result       (reduce (fn [acc e]
                                (let [max-y (apply max (->> e
                                                            (map :position)
@@ -30,6 +33,7 @@
                                  (update acc max-y conj e))) {} result)
         result       (last (sort-by first result))
         [max-y traj] result]
+    (is (= 112 cnt))
     (is (= 45 max-y))
     (is (some #(= [6 9] ((juxt :x-vel :y-vel) %)) (map first traj)))))
 
@@ -44,3 +48,11 @@
         result       (last (sort-by first result))
         [max-y traj] result]
     (is (= 8646 max-y))))
+
+(deftest run-file-pt2-test
+  (let [area   (sut/load-target-area (first (aoc/load-input 17)))
+        result (sut/run area)
+        cnt    (->> result flatten (filter (fn [p] (= [0 0]
+                                                     (:position p))))
+                    count)]
+    (is (= 8646 cnt))))

@@ -57,6 +57,11 @@
   [[[_ x-max] _]]
   x-max)
 
+(defn min-y-vel
+  ""
+  [[_ [min-y _]]]
+  min-y)
+
 (defn run
   ([area]
    (let [max-x-vel (max-x-vel area)
@@ -66,7 +71,8 @@
    (if (empty? x-vels)
      (mapcat concat (filterv (complement empty?) results))
      (let [x          (first x-vels)
-           candidates (for [y     (range 1 (inc (max-x-vel area)))
+           min-y      (min-y-vel area)
+           candidates (for [y     (range min-y (inc (max-x-vel area)))
                             :let  [probe (->probe [x y])
                                    path (calc-path area probe)]
                             :when (in-target-area? area (-> path last :position))]
